@@ -13,5 +13,13 @@ class Tokenizer:
         self.word_to_id = {word:i for i, word in enumerate(self.vocab)}
         self.id_to_word = {i:word for i, word in enumerate(self.vocab)}
 
+    def encode(self, text):
+        ids = []
+
+        for word in text.split():
+            ids.append(self.word_to_id.get(word, self.word_to_id['<UNK>']))
+
+        return ids
+
     
         

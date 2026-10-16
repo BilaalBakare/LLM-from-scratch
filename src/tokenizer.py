@@ -21,5 +21,11 @@ class Tokenizer:
 
         return ids
 
-    
+    def decode(self, ids):
+        words = []
+
+        for id in ids:
+            words.append(self.id_to_word[id])
+
+        return " ".join(words)
         

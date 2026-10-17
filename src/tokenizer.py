@@ -1,11 +1,11 @@
 class Tokenizer:
-    def __init__(self, text_file):
-        self.text_file = text_file
+    def __init__(self, words, text_file=None,):
+        # self.text_file = text_file
 
-        words = None
+        words = "hello how are you doing today I am fine thank you"
         
-        with open(self.text_file, 'r', encoding='utf-8') as file:
-            words = file.read().split()
+        # with open(self.text_file, 'r', encoding='utf-8') as file:
+        #     words = file.read().split()
 
         self.vocab = ["<UNK>"] + sorted(list(set(words)))
         self.vocab_size = len(self.vocab)

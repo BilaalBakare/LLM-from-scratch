@@ -70,7 +70,7 @@ class MultiHeadAttention:
         self.W_o = np.random.randn(d_model, d_model) * 0.01
         
         # Core attention engine sub-module
-        self.attention = ScaledDotProductAttention()
+        self.attention = ScaledDotProductAttention(d_model)
 
     def forward(self, x):
         B, T, _ = x.shape

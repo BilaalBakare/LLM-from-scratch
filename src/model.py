@@ -1,6 +1,6 @@
 import numpy as np
-from embeddings import Embeddings
-from transformerblock import TransformerBlock
+from src.embeddings import Embeddings
+from src.transformerblock import TransformerBlock
 
 def softmax(x):
     shift = x - np.max(x, axis=-1, keepdims=True)

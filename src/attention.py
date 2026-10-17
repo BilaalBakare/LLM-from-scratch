@@ -30,4 +30,14 @@ class ScaledDotProductAttention:
         exp_scores = np.exp(shift)
         return exp_scores / np.sum(exp_scores, axis=-1, keepdims=True)
         
-
+class MultiHeadAttention:
+    def __init__(self, d_model, num_heads):
+        self.d_model = d_model
+        self.num_heads = num_heads
+        self.d_k = d_model // num_heads
+        
+        # Projections
+        self.W_q = np.random.randn(d_model, d_model) * 0.01
+        self.W_k = np.random.randn(d_model, d_model) * 0.01
+        self.W_v = np.random.randn(d_model, d_model) * 0.01
+        self.W_o = np.random.randn(d_model, d_model) * 0.01

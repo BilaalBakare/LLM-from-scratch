@@ -2,6 +2,11 @@ import numpy as np
 from embeddings import Embeddings
 from transformerblock import TransformerBlock
 
+def softmax(x):
+    shift = x - np.max(x, axis=-1, keepdims=True)
+    exp_x = np.exp(shift)
+    return exp_x / np.sum(exp_x, axis=-1, keepdims=True)
+
 class TransformerLM:
     def __init__(self, vocab_size, d_model, max_seq_len, num_heads):
         self.vocab_size = vocab_size

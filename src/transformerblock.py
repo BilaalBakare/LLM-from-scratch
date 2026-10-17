@@ -13,6 +13,18 @@ class LayerNorm:
 
         return self.gamma * x_norm + self.beta
 
+class FeedForward:
+    def __init__(self, d_model, d_ff=None):
+        if d_ff is None:
+            d_ff = 4 * d_model
+            
+        self.W1 = np.random.randn(d_model, d_ff) * 0.01
+        self.W2 = np.random.randn(d_ff, d_model) * 0.01
+
+    def forward(self, x):
+        hidden = np.maximum(0, x @ self.W1)  
+        return hidden @ self.W2
+
 class ScaledDotProductAttention:
     def __init__(self, d_model):
         self.d_model = d_model

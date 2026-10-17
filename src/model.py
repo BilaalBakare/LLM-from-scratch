@@ -19,4 +19,11 @@ class TransformerLM:
         
         self.W_vocab = np.random.randn(self.d_model, self.vocab_size) * 0.01
 
+    def forward(self, input_ids):
+        embeded = self.embedder.forward(input_ids)  
+        hidden_states = self.transformer.forward(embeded)  
+        logits = hidden_states @ self.W_vocab  
     
+        predictions = softmax(logits) 
+        
+        return predictions

@@ -27,3 +27,18 @@ class TransformerLM:
         predictions = softmax(logits) 
         
         return predictions
+
+    def generate(self, start_tokens, max_new_tokens, id_to_word, temperature=0.7):
+        tokens = list(start_tokens)
+        
+        for _ in range(max_new_tokens):
+            input_ids = np.array([tokens[-self.max_seq_len:]]) 
+            probs = self.forward(input_ids)  
+            last_probs = probs[0, -1, :]
+            
+            next_token_id = int(np.argmax(last_probs))
+            
+            tokens.append(next_token_id)
+            
+        words = [id_to_word.get(idx, "<UNK>") for idx in tokens]
+        return " ".join(words)

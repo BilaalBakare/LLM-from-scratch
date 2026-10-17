@@ -9,23 +9,25 @@ class ScaledDotProductAttention:
         self.value = np.random.randn(self.d_model, self.d_model) * 0.01
 
     def forward(self, input):
+        B, T, _ = input.shape
+        
         Q = input @ self.query
         K = input @ self.key
         V = input @ self.value
-
+        
         K_T = K.transpose(0, 2, 1)
         scores = (Q @ K_T) / np.sqrt(self.d_model)
-        causal_mask = np.tril(np.ones((self.d_model, self.d_model), dtype=bool))
-
-        scores += causal_mask
-
-        weights = self._softmax(scores)
-
-        return weights @ V
+        
+        mask = np.triu(np.ones((T, T)), k=1)
+        scores = np.where(mask == 1, -1e9, scores)
+        
+        weights = self._softmax(scores) 
+        
+        return weights @ V 
 
     def _softmax(self, scores):
-        shift = scores - np.max(scores)
-
-        return np.exp(shift) / np.sum(np.exp(shift))
+        shift = scores - np.max(scores, axis=-1, keepdims=True)
+        exp_scores = np.exp(shift)
+        return exp_scores / np.sum(exp_scores, axis=-1, keepdims=True)
         
 

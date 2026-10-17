@@ -90,3 +90,17 @@ class MultiHeadAttention:
         out = context @ self.W_o
         
         return out
+
+class TransformerBlock:
+    def __init__(self, d_model, num_heads):
+        self.ln1 = LayerNorm(d_model)
+        self.mha = MultiHeadAttention(d_model, num_heads)
+        
+        self.ln2 = LayerNorm(d_model)
+        self.ffn = FeedForward(d_model)
+
+    def forward(self, x):
+        x = x + self.mha.forward(self.ln1.forward(x))
+        x = x + self.ffn.forward(self.ln2.forward(x))
+        
+        return x
